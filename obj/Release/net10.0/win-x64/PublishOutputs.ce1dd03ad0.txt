@@ -1,0 +1,2 @@
+C:\Projects\led-control-router\publish\LedControl.pdb
+C:\Projects\led-control-router\publish\LedControl.exe

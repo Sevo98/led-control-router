@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "0pvAckXyYRA=",
+  "success": true,
+  "projectFilePath": "C:\\Projects\\led-control-router\\LedControl.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\bouncycastle.cryptography\\2.7.0\\bouncycastle.cryptography.2.7.0.nupkg.sha512",
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\microsoft.extensions.dependencyinjection.abstractions\\8.0.2\\microsoft.extensions.dependencyinjection.abstractions.8.0.2.nupkg.sha512",
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\microsoft.extensions.logging.abstractions\\8.0.3\\microsoft.extensions.logging.abstractions.8.0.3.nupkg.sha512",
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\microsoft.net.illink.tasks\\10.0.14\\microsoft.net.illink.tasks.10.0.14.nupkg.sha512",
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\ssh.net\\2026.0.0\\ssh.net.2026.0.0.nupkg.sha512",
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\microsoft.netcore.app.runtime.win-x64\\10.0.14\\microsoft.netcore.app.runtime.win-x64.10.0.14.nupkg.sha512",
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.14\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.14.nupkg.sha512",
+    "C:\\Users\\sevo9\\AppData\\Local\\Temp\\cursor-sandbox-cache\\5306b7612b1c64381ebb630367d5e39a\\nuget\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.14\\microsoft.aspnetcore.app.runtime.win-x64.10.0.14.nupkg.sha512"
+  ],
+  "logs": []
+}
