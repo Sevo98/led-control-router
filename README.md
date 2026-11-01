@@ -28,9 +28,15 @@ publish\LedControl.exe
 
 Запустите exe, укажите IP роутера, логин и пароль — откроется меню управления индикаторами.
 
-### Сборка из исходников
+### Запуск из исходников
 
 Нужен [.NET SDK 10](https://dotnet.microsoft.com/download).
+
+```powershell
+dotnet run -c Release
+```
+
+### Сборка exe
 
 ```powershell
 dotnet publish -c Release -r win-x64 --self-contained true `
