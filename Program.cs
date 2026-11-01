@@ -3,25 +3,34 @@
 Console.OutputEncoding = System.Text.Encoding.UTF8;
 Console.Title = "OpenWrt LED Control";
 
-Console.WriteLine("Подключение к роутеру OpenWrt");
+UiText.Use(ReadLanguage());
 Console.WriteLine();
 
-var host = ReadHost("IP-адрес роутера: ");
-var user = ReadRequired("Логин: ");
-var password = ReadPassword("Пароль: ");
+Console.WriteLine(UiText.T(
+    "Connection to the OpenWrt router",
+    "Подключение к роутеру OpenWrt"));
+Console.WriteLine();
+
+var host = ReadHost(UiText.T("Router IP address: ", "IP-адрес роутера: "));
+var user = ReadRequired(UiText.T("Username: ", "Логин: "));
+var password = ReadPassword(UiText.T("Password: ", "Пароль: "));
 Console.WriteLine();
 
 using var router = new RouterLedClient(host, user, password);
 
 try
 {
-    Console.WriteLine($"Подключение к {user}@{host} ...");
+    Console.WriteLine(UiText.T(
+        $"Connecting to {user}@{host} ...",
+        $"Подключение к {user}@{host} ..."));
     router.Connect();
-    Console.WriteLine("Подключено.\n");
+    Console.WriteLine(UiText.T("Connected.\n", "Подключено.\n"));
 }
 catch (Exception ex)
 {
-    Console.Error.WriteLine($"Не удалось подключиться: {ex.Message}");
+    Console.Error.WriteLine(UiText.T(
+        $"Could not connect: {ex.Message}",
+        $"Не удалось подключиться: {ex.Message}"));
     return 1;
 }
 
@@ -34,7 +43,9 @@ while (true)
     }
     catch (Exception ex)
     {
-        Console.Error.WriteLine($"Ошибка чтения LED: {ex.Message}");
+        Console.Error.WriteLine(UiText.T(
+            $"Failed to read LEDs: {ex.Message}",
+            $"Ошибка чтения LED: {ex.Message}"));
         return 1;
     }
 
@@ -55,13 +66,38 @@ while (true)
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Ошибка: {ex.Message}");
+        Console.WriteLine(UiText.T($"Error: {ex.Message}", $"Ошибка: {ex.Message}"));
     }
 
     Console.WriteLine();
 }
 
 return 0;
+
+static AppLanguage ReadLanguage()
+{
+    Console.WriteLine("Select language / Выберите язык:");
+    Console.WriteLine("  1  English");
+    Console.WriteLine("  2  Русский");
+
+    while (true)
+    {
+        Console.Write("> ");
+        var input = Console.ReadLine()?.Trim();
+        switch (input?.ToLowerInvariant())
+        {
+            case "1" or "en" or "english":
+                Console.WriteLine("Language: English");
+                return AppLanguage.English;
+            case "2" or "ru" or "russian" or "русский":
+                Console.WriteLine("Язык: русский");
+                return AppLanguage.Russian;
+            default:
+                Console.WriteLine("Enter 1 or 2. / Введите 1 или 2.");
+                break;
+        }
+    }
+}
 
 static string ReadRequired(string prompt)
 {
@@ -72,7 +108,7 @@ static string ReadRequired(string prompt)
         if (!string.IsNullOrEmpty(value))
             return value;
 
-        Console.WriteLine("Значение не может быть пустым.");
+        WriteEmptyValue();
     }
 }
 
@@ -84,23 +120,28 @@ static string ReadHost(string prompt)
         var value = Console.ReadLine()?.Trim();
         if (string.IsNullOrEmpty(value))
         {
-            Console.WriteLine("Значение не может быть пустым.");
+            WriteEmptyValue();
             continue;
         }
 
         var host = NormalizeHost(value);
         if (string.IsNullOrEmpty(host))
         {
-            Console.WriteLine("Не удалось распознать адрес. Пример: 192.168.10.1");
+            Console.WriteLine(UiText.T(
+                "Could not recognize the address. Example: 192.168.10.1",
+                "Не удалось распознать адрес. Пример: 192.168.10.1"));
             continue;
         }
 
         if (!string.Equals(value, host, StringComparison.Ordinal))
-            Console.WriteLine($"Используется адрес: {host}");
+            Console.WriteLine(UiText.T($"Using address: {host}", $"Используется адрес: {host}"));
 
         return host;
     }
 }
+
+static void WriteEmptyValue() =>
+    Console.WriteLine(UiText.T("Value cannot be empty.", "Значение не может быть пустым."));
 
 static string NormalizeHost(string input)
 {
@@ -147,7 +188,7 @@ static string ReadPassword(string prompt)
             Console.WriteLine();
             if (password.Length == 0)
             {
-                Console.WriteLine("Значение не может быть пустым.");
+                WriteEmptyValue();
                 Console.Write(prompt);
                 continue;
             }
@@ -175,15 +216,17 @@ static string ReadPassword(string prompt)
 
 static void PrintStatus(IReadOnlyList<LedInfo> leds)
 {
-    Console.WriteLine("Индикаторы роутера");
+    Console.WriteLine(UiText.T("Router indicators", "Индикаторы роутера"));
     Console.WriteLine(new string('-', 52));
-    Console.WriteLine($"{"#",-3} {"Имя",-18} {"Состояние",-10} {"Триггер",-12}");
+    Console.WriteLine(UiText.T(
+        $"{"#",-3} {"Name",-18} {"State",-10} {"Trigger",-12}",
+        $"{"#",-3} {"Имя",-18} {"Состояние",-10} {"Триггер",-12}"));
     Console.WriteLine(new string('-', 52));
 
     for (var i = 0; i < leds.Count; i++)
     {
         var led = leds[i];
-        var state = led.IsOn ? "ВКЛ" : "выкл";
+        var state = led.IsOn ? UiText.T("ON", "ВКЛ") : UiText.T("off", "выкл");
         Console.WriteLine($"{i + 1,-3} {led.DisplayName,-18} {state,-10} {led.Trigger,-12}");
     }
 
@@ -193,13 +236,17 @@ static void PrintStatus(IReadOnlyList<LedInfo> leds)
 static void PrintMenu(int ledCount)
 {
     Console.WriteLine();
-    Console.WriteLine($"1-{ledCount}  переключить выбранный LED");
-    Console.WriteLine("a       включить все (режим OpenWrt по умолчанию)");
-    Console.WriteLine("x       выключить все");
-    Console.WriteLine("on N    включить LED №N");
-    Console.WriteLine("off N   выключить LED №N");
-    Console.WriteLine("r       обновить список");
-    Console.WriteLine("q       выход");
+    Console.WriteLine(UiText.T(
+        $"1-{ledCount}  toggle the selected LED",
+        $"1-{ledCount}  переключить выбранный LED"));
+    Console.WriteLine(UiText.T(
+        "a       turn all on (default OpenWrt mode)",
+        "a       включить все (режим OpenWrt по умолчанию)"));
+    Console.WriteLine(UiText.T("x       turn all off", "x       выключить все"));
+    Console.WriteLine(UiText.T("on N    turn LED #N on", "on N    включить LED №N"));
+    Console.WriteLine(UiText.T("off N   turn LED #N off", "off N   выключить LED №N"));
+    Console.WriteLine(UiText.T("r       refresh the list", "r       обновить список"));
+    Console.WriteLine(UiText.T("q       quit", "q       выход"));
 }
 
 static void HandleCommand(RouterLedClient router, IReadOnlyList<LedInfo> leds, string input)
@@ -210,14 +257,18 @@ static void HandleCommand(RouterLedClient router, IReadOnlyList<LedInfo> leds, s
     if (input is "a" or "A")
     {
         router.TurnAllOn();
-        Console.WriteLine("Все индикаторы возвращены к режиму OpenWrt.");
+        Console.WriteLine(UiText.T(
+            "All indicators restored to OpenWrt mode.",
+            "Все индикаторы возвращены к режиму OpenWrt."));
         return;
     }
 
     if (input is "x" or "X")
     {
         router.TurnAllOff();
-        Console.WriteLine("Все индикаторы выключены.");
+        Console.WriteLine(UiText.T(
+            "All indicators turned off.",
+            "Все индикаторы выключены."));
         return;
     }
 
@@ -243,27 +294,29 @@ static void HandleCommand(RouterLedClient router, IReadOnlyList<LedInfo> leds, s
         return;
     }
 
-    Console.WriteLine("Неизвестная команда.");
+    Console.WriteLine(UiText.T("Unknown command.", "Неизвестная команда."));
 }
 
 static void ApplyOn(RouterLedClient router, IReadOnlyList<LedInfo> leds, int index)
 {
     var led = GetLed(leds, index);
     router.SetLed(led.Name, on: true);
-    Console.WriteLine($"{led.DisplayName}: включен.");
+    Console.WriteLine(UiText.T($"{led.DisplayName}: turned on.", $"{led.DisplayName}: включен."));
 }
 
 static void ApplyOff(RouterLedClient router, IReadOnlyList<LedInfo> leds, int index)
 {
     var led = GetLed(leds, index);
     router.SetLed(led.Name, on: false);
-    Console.WriteLine($"{led.DisplayName}: выключен.");
+    Console.WriteLine(UiText.T($"{led.DisplayName}: turned off.", $"{led.DisplayName}: выключен."));
 }
 
 static LedInfo GetLed(IReadOnlyList<LedInfo> leds, int index)
 {
     if (index < 1 || index > leds.Count)
-        throw new InvalidOperationException($"Номер должен быть от 1 до {leds.Count}.");
+        throw new InvalidOperationException(UiText.T(
+            $"Number must be from 1 to {leds.Count}.",
+            $"Номер должен быть от 1 до {leds.Count}."));
     return leds[index - 1];
 }
 

@@ -18,6 +18,7 @@
 
 ## Возможности
 
+- Выбор языка при запуске: English или Русский
 - Подключение к роутеру по SSH (IP, логин и пароль вводятся при запуске)
 - Список индикаторов с состоянием (вкл/выкл) и активным триггером
 - Переключение отдельного LED
@@ -34,7 +35,7 @@
 publish\LedControl.exe
 ```
 
-Запустите exe, укажите IP роутера, логин и пароль — откроется меню управления индикаторами.
+Запустите exe, выберите язык интерфейса, укажите IP роутера, логин и пароль — откроется меню управления индикаторами.
 
 ### Запуск из исходников
 
@@ -96,6 +97,7 @@ It shows the current LED state and lets you turn them on or off one at a time or
 
 ## Features
 
+- Choose the interface language at startup: English or Russian
 - Connect to the router over SSH (IP, username, and password are entered at startup)
 - A list of indicators with their state (on/off) and the active trigger
 - Toggle an individual LED
@@ -112,7 +114,7 @@ Ready-made file:
 publish\LedControl.exe
 ```
 
-Run the exe, enter the router IP, username, and password — the indicator control menu opens.
+Run the exe, choose the interface language, enter the router IP, username, and password — the indicator control menu opens.
 
 ### Run from source
 

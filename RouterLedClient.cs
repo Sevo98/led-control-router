@@ -158,7 +158,7 @@ internal sealed class RouterLedClient : IDisposable
     private string Run(string command)
     {
         if (_client is null || !_client.IsConnected)
-            throw new InvalidOperationException("Нет SSH-подключения.");
+            throw new InvalidOperationException(UiText.T("No SSH connection.", "Нет SSH-подключения."));
 
         // Transfer script via base64 to avoid fragile shell quoting.
         var b64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(command.Replace("\r\n", "\n")));
@@ -187,7 +187,7 @@ internal sealed class RouterLedClient : IDisposable
     private static void EnsureSafeName(string name)
     {
         if (string.IsNullOrWhiteSpace(name) || name.Any(c => !(char.IsAsciiLetterOrDigit(c) || c is ':' or '-' or '_')))
-            throw new ArgumentException($"Некорректное имя LED: {name}");
+            throw new ArgumentException(UiText.T($"Invalid LED name: {name}", $"Некорректное имя LED: {name}"));
     }
 
     private static string ShellEscape(string value) => value.Replace("'", "'\\''");
