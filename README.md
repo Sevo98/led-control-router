@@ -18,6 +18,7 @@
 
 ## Возможности
 
+- Выбор языка при запуске: English или Русский
 - Подключение к роутеру по SSH (IP, логин и пароль вводятся при запуске)
 - Список индикаторов с состоянием (вкл/выкл) и активным триггером
 - Переключение отдельного LED
@@ -28,17 +29,9 @@
 
 ## Быстрый старт
 
-Готовый файл:
-
-```text
-publish\LedControl.exe
-```
-
-Запустите exe, укажите IP роутера, логин и пароль — откроется меню управления индикаторами.
+Нужен [.NET SDK 10](https://dotnet.microsoft.com/download).
 
 ### Запуск из исходников
-
-Нужен [.NET SDK 10](https://dotnet.microsoft.com/download).
 
 ```powershell
 dotnet run -c Release
@@ -53,6 +46,8 @@ dotnet publish -c Release -r win-x64 --self-contained true `
   -p:EnableCompressionInSingleFile=true `
   -o publish
 ```
+
+Готовый файл появится в `publish\LedControl.exe`. Запустите его, выберите язык интерфейса, укажите IP роутера, логин и пароль — откроется меню управления индикаторами.
 
 ## Управление
 
@@ -96,6 +91,7 @@ It shows the current LED state and lets you turn them on or off one at a time or
 
 ## Features
 
+- Choose the interface language at startup: English or Russian
 - Connect to the router over SSH (IP, username, and password are entered at startup)
 - A list of indicators with their state (on/off) and the active trigger
 - Toggle an individual LED
@@ -106,17 +102,9 @@ Tested on **Cudy WBR3000UAX v1** (OpenWrt 25.12), and it is also suitable for ot
 
 ## Quick start
 
-Ready-made file:
-
-```text
-publish\LedControl.exe
-```
-
-Run the exe, enter the router IP, username, and password — the indicator control menu opens.
+You need the [.NET SDK 10](https://dotnet.microsoft.com/download).
 
 ### Run from source
-
-You need the [.NET SDK 10](https://dotnet.microsoft.com/download).
 
 ```powershell
 dotnet run -c Release
@@ -131,6 +119,8 @@ dotnet publish -c Release -r win-x64 --self-contained true `
   -p:EnableCompressionInSingleFile=true `
   -o publish
 ```
+
+The built file will be at `publish\LedControl.exe`. Run it, choose the interface language, enter the router IP, username, and password — the indicator control menu opens.
 
 ## Controls
 
